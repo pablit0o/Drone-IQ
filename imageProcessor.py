@@ -4,7 +4,9 @@ imageProcessor.py
 This module is used to load in SD cards into a
 separate folder automatically. The only data that
 it will extract from SD cards is JPG/JPEG-formatted 
-images to use as input for our AI model.
+images to use as input for our AI model. It is 
+important to load in the SD card while the program 
+is running, not before or after program execution.
 
 Author: Pablo Silva
 Date: 07-25-2025
