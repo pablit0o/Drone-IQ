@@ -152,7 +152,3 @@ if del_choice == 'y':
             file_path = os.path.join(OUTPUT_MASKS_DIR, filename)
             os.remove(file_path)
             print(f"Deleted: {filename}")
-            
-# 25 26 --> 1.8
-# 25 27 --> 5.8
-# 26 27 --> 4
