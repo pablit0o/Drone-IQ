@@ -8,8 +8,8 @@ displacement, we are able to find missing
 angles and lengths through the laws of sines.
 
 Author: Amun Reddy
-Date: 7-27-2025
-Last Updated: 7-28-2025
+Date: 07-27-2025
+Last Updated: 07-28-2025
 """
 import math
 
