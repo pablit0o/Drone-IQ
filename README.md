@@ -25,7 +25,7 @@ POSTER:
 - [COSMOS Cluster 2 Drones Poster.pdf](https://github.com/user-attachments/files/21535167/COSMOS.Cluster.2.Drones.Poster.pdf)
 
 FUTURE CHALLENGES:
-- In case there are any questions or challenges you have, feel free to shoot us an email.
+- In case there are any questions or challenges you have, feel free to shoot us an email. Note: all notebooks are labeled with an author.
 - Nelson Nishio: nelsonknishio@gmail.com
 - Pablo Silva: pbsilva2009@gmail.com
 - Arjun Maganti: arjunmaganti2008@gmail.com
