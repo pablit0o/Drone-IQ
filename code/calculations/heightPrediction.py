@@ -1,3 +1,11 @@
+"""
+heightPrediction.py
+
+Author: Arjun Maganti
+Date: 07-18-2025
+Last Updated: 07-25-2025
+"""
+
 import numpy as np
 from PIL import Image
 
