@@ -3,7 +3,7 @@ maskCleaning.py
 
 This module is utilized to clean up the
 building masks produced by our DeepLearningV3
-model. The way it is cleaned up is through a 
+model. The way it is cleaned up is through a
 graph-traversal problem, where we try to find the
 largest group of interconnected 1s in a 2D
 binary array, where a 1 represents a building
@@ -16,9 +16,11 @@ Date: 07-27-2025
 Last Updated: 07-27-2025
 """
 
+import os
 from PIL import Image
 import numpy as np
 import sys
+from tqdm import tqdm 
 
 recursion_limit = 5000000
 sys.setrecursionlimit(recursion_limit)
@@ -26,16 +28,16 @@ sys.setrecursionlimit(recursion_limit)
 def dfs_search(binary_array):
     """
     Implementation that first checks for
-    rows and columns, then uses DFS to find 
+    rows and columns, then uses DFS to find
     largest group. After largest group is found,
     any other sub-group is converted to 0s.
     """
     rows = len(binary_array)
     cols = len(binary_array[0])
-    
+
     # Keep original for debugging
     binary_array = [row[:] for row in binary_array]
-    
+
     # Visited cells during DFS
     visited = [[False for _ in range(cols)] for _ in range(rows)]
 
@@ -51,7 +53,7 @@ def dfs_search(binary_array):
         for other nearby (horizontally/vertically) connected
         nodes. It returns through recursion by calling the parent
         node. Also, its important that it uses a stack
-        (LIFO) to keep track of visited nodes, thus 
+        (LIFO) to keep track of visited nodes, thus
         avoiding cycles aka infinite loops.
         """
         if (r < 0 or r >= rows or c < 0 or c >= cols or
@@ -67,7 +69,7 @@ def dfs_search(binary_array):
         count += dfs(r - 1, c, current_group) # Up
         count += dfs(r, c + 1, current_group) # Right
         count += dfs(r, c - 1, current_group) # Left
-        
+
         return count
 
     # Comparison, filter through largest group.
@@ -83,7 +85,7 @@ def dfs_search(binary_array):
 
                 # If multiple groups are the same size, first one found is kept
                 elif current_group_size == largest_group_size:
-                    pass 
+                    pass
 
     # Create output array, set non-largest to 0s
     output_array = [[0 for _ in range(cols)] for _ in range(rows)]
@@ -116,15 +118,48 @@ def png_conversion(binary_array, output_path="output_mask.png"):
     # Save the image
     try:
         img.save(output_path)
-        print(f"Image successfully saved to {output_path}")
     except Exception as e:
-        print(f"Error saving image: {e}")
+        print(f"Error saving image to {output_path}: {e}")
 
-img_file = 'DJI_0013_mask' # To save new images
-img = Image.open(img_file + '.png').convert('L') 
+def process_masks(input_dir, output_dir):
+    """
+    Processes all PNG mask files in an input directory, applies DFS cleaning,
+    and saves the cleaned masks to an output directory.
+    """
+    os.makedirs(output_dir, exist_ok=True) # Ensure output directory exists
 
-np_img = np.array(img)
-binary_array = (np_img > 128).astype(int)
-result_array = dfs_search(binary_array)
+    mask_files = [f for f in os.listdir(input_dir) if f.endswith('.png')]
 
-png_conversion(result_array, f"{img_file}_clean.png")
+    if not mask_files:
+        print(f"No PNG mask files found in {input_dir}")
+        return 0
+
+    processed_count = 0
+    for filename in tqdm(mask_files, desc="Cleaning masks"):
+        input_path = os.path.join(input_dir, filename)
+        
+        # Append '_clean' to the original filename before the extension
+        output_filename = os.path.splitext(filename)[0] + '_clean.png'
+        output_path = os.path.join(output_dir, output_filename)
+
+        try:
+            img = Image.open(input_path).convert('L') # Convert to grayscale
+            np_img = np.array(img)
+            binary_array = (np_img > 128).astype(int) # Assuming masks are binary (0 or 255)
+
+            result_array = dfs_search(binary_array)
+            png_conversion(result_array, output_path)
+            processed_count += 1
+        except Exception as e:
+            print(f"Error processing {filename}: {e}")
+            continue
+
+    print(f"Successfully cleaned {processed_count} masks and saved to {output_dir}")
+    return processed_count
+
+def main(INPUT_DIR, OUTPUT_DIR):
+    process_masks(INPUT_DIR, OUTPUT_DIR)
+
+
+if __name__ == "__main__":
+    main()
