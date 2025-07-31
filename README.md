@@ -1,5 +1,5 @@
 # Drone-IQ
-Repository for the Autonomous Drone project from COSMOS 2024-2025 Cluster 2.
+Repository for the Autonomous Drone project from University of California, Irvine COSMOS 2025 Cluster 2.
 
 Title: **"Integrating Deep Learning Segmentation with Parallax Geometry for UAV-Based Structure Height Estimation"**
 
