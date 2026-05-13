@@ -1,5 +1,5 @@
 # DroneIQ
-Repository for the Autonomous Drone project from University of California, Irvine COSMOS 2025 Cluster 2.
+Repository for the Autonomous Drone project from University of California, Irvine COSMOS 2025 Cluster 2. Published in IEEE AAIML 2026.
 
 Title: **"Integrating Deep Learning Segmentation with Parallax Geometry for UAV-Based Structure Height Estimation"**
 
@@ -17,7 +17,7 @@ Researchers: **Arjun Maganti, Nelson Nishio, Amun Reddy, Pablo Silva**
 ## Project Description
 The goal of our project was to determine the height of various buildings around the campus of UCI using simple drone images. We would require firstly a model that could accurately determine the outlines of buildings from a drone image, and also a model that could implement the parallax method to determine the height. Firstly, we manually collected and annotated a dataset of 207 images to train a DeepLabV3 segmentation model on. The dataset can be found [here](https://kaggle.com/datasets/nnishio/building-outlines-for-segmentation). Then, we pre-processed the images by applying various transformations, and augmented the images as well. After that, we trained the DeepLabV3 model on the 207 images. We eventually achieved a peak Dice Coefficient of roughly 96% for the non-processed images. 
 
-After this, we took drone images and created prediction masks. We used a depth-first search algorithm to clean the predicted masks to create a single blob from which we could extract the lowest and highest white pixel. From this, we were able to use the parallax method to determine the relevant angles of the triangles from two subsequent images. By knowing the vertical displacement of the drone, we were able to determine the angles and heights of the buildings (for more info on how this was done view the poster). In the end, comparing the parallax heights to the real height, we had an average percent error of 22.84%. We also determined the model’s accuracy as when testing multiple instances of the model on the same building (Engineering Tower), the mean of the sample fell within one standard deviation of the true result, meaning the model was relatively accurate.
+After this, we took drone images and created prediction masks. We used a depth-first search algorithm to clean the predicted masks to create a single blob from which we could extract the lowest and highest white pixel. By knowing the vertical displacement of the drone, we were able to determine the angles and heights of the buildings by extracting the relevant angles of the triangles from two subsequent images (for more info on how this was done view the poster). In the end, comparing the parallax heights to the real height, we had an average percent error of 22.84%. We also determined the model’s accuracy as when testing multiple instances of the model on the same building (Engineering Tower), the mean of the sample fell within one standard deviation of the true result, meaning the model was relatively accurate.
 
 ## Dataset
 - The dataset that was used to train this model can be accessed at https://www.kaggle.com/datasets/nnishio/building-outlines-for-segmentation/data
